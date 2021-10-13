@@ -1,0 +1,70 @@
+{
+  "name": "@hms-networks/kolibri-cli",
+  "version": "1.0.0",
+  "description": "The CLI interface for the Kolibri Broker",
+  "author": "HMS Industrial Networks AB",
+  "homepage": "https://www.hms-networks.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hms-networks/kolibri-cli"
+  },
+  "bugs": {
+    "url": "https://github.com/hms-networks/kolibri-cli/issues"
+  },
+  "keywords": [
+    "kolibri",
+    "cli",
+    "client",
+    "consumer",
+    "rpc",
+    "iot",
+    "iiot",
+    "internet of things",
+    "hms"
+  ],
+  "license": "Apache-2.0",
+  "bin": {
+    "kolibri-cli": "./build/node/index.js"
+  },
+  "main": "build/cjs/index.js",
+  "types": "build/types/index.d.ts",
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "build": "npm run build:cjs && npm run build:types",
+    "build:cjs": "tsc --project tsconfig.cjs.json",
+    "build:types": "tsc --project tsconfig.types.json",
+    "test": "jest --coverage --verbose",
+    "pkg:linux": "npm run build && ./node_modules/.bin/pkg build/cjs/index.js -t node14-linux-x64 -o ./bin/kolibri-cli-linux",
+    "pkg:macos": "npm run build && ./node_modules/.bin/pkg build/cjs/index.js -t node14-macos-x64 -o ./bin/kolibri-cli-macos",
+    "pkg:windows": "npm run build && ./node_modules/.bin/pkg build/cjs/index.js -t node14-win-x64 -o ./bin/kolibri-cli-windows",
+    "postinstall": "patch-package"
+  },
+  "dependencies": {
+    "@hms-networks/kolibri-js-client": "^2.0.2",
+    "bandersnatch": "^1.8.3",
+    "dotenv": "^10.0.0",
+    "yargs": "^17.2.1"
+  },
+  "devDependencies": {
+    "@tsconfig/node14": "^1.0.1",
+    "@types/jest": "^27.0.2",
+    "@types/node": "^14.17.21",
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
+    "@typescript-eslint/parser": "^4.33.0",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-import": "^2.24.2",
+    "jest": "27.2.4",
+    "jest-extended": "^0.11.5",
+    "jest-junit": "^13.0.0",
+    "patch-package": "^6.4.7",
+    "pkg": "^5.3.3",
+    "prettier": "^2.4.1",
+    "ts-jest": "^27.0.5",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.3"
+  },
+  "engines": {
+    "node": ">=14"
+  }
+}
