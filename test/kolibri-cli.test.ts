@@ -50,16 +50,6 @@ describe('KolibriCli', () => {
         });
     });
 
-    describe('logout', () => {
-        it('should be called and return correct value', async () => {
-            const response: number = 0;
-            kolibriClientMock.logout.mockResolvedValue(response);
-            const result = await cli.logout();
-            expect(kolibriClientMock.logout).toHaveBeenCalled();
-            expect(result).toEqual(response);
-        });
-    });
-
     describe('userBrowse', () => {
         it('should be called and return correct value', async () => {
             const response: any = {};
@@ -202,7 +192,7 @@ describe('KolibriCli', () => {
 
     describe('userGroupListMembers', () => {
         it('should be called and return correct value', async () => {
-            const response: string[] = [""];
+            const response: string[] = [''];
             kolibriClientMock.userGroupListMembers.mockResolvedValue(response);
             const result = await cli.userGroupListMembers({} as any);
             expect(kolibriClientMock.userGroupListMembers).toHaveBeenCalled();
