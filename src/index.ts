@@ -18,6 +18,7 @@
 
 
 import { existsSync, mkdirSync, writeFileSync } from 'fs';
+import { homedir } from 'os';
 import { dirname } from 'path';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
@@ -28,7 +29,7 @@ import { KolibriCli } from './kolibri-cli';
 async function main() {
     try {
         const argv = yargs(hideBin(process.argv)).argv;
-        let path: string = process.env.HOME + '/.kolibri-cli/config.env';
+        let path: string = `${homedir()}/.kolibri-cli/config.env`;
         createDefaultConfigFileIfNotExists(path);
 
         if (argv.config) {
