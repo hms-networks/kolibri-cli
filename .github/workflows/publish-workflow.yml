@@ -13,7 +13,8 @@ jobs:
         with: 
           node-version: 14
       - run: npm ci
-      - run: npm run build
+      - run: npm run pkg:linux
+      - run: npm run pkg:windows
       - name: Upload release binaries
         uses: alexellis/upload-assets@0.3
         env:
