@@ -16,7 +16,7 @@ jobs:
       - run: npm run pkg:linux
       - run: npm run pkg:windows
       - name: Upload release binaries
-        uses: alexellis/upload-assets@0.3
+        uses: alexellis/upload-assets@0.3.0
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
