@@ -34,9 +34,9 @@
     "build:cjs": "tsc --project tsconfig.cjs.json",
     "build:types": "tsc --project tsconfig.types.json",
     "test": "jest --coverage --verbose",
-    "pkg:linux": "npm run build && ./node_modules/.bin/pkg build/cjs/index.js -t node14-linux-x64 -o ./bin/kolibri-cli-linux",
-    "pkg:macos": "npm run build && ./node_modules/.bin/pkg build/cjs/index.js -t node14-macos-x64 -o ./bin/kolibri-cli-macos",
-    "pkg:windows": "npm run build && ./node_modules/.bin/pkg build/cjs/index.js -t node14-win-x64 -o ./bin/kolibri-cli-windows",
+    "pkg:linux": "npm run build && ./node_modules/.bin/pkg build/cjs/index.js -t node14-linux-x64 -o ./bin/kolibri-cli-linux-$npm_package_version",
+    "pkg:macos": "npm run build && ./node_modules/.bin/pkg build/cjs/index.js -t node14-macos-x64 -o ./bin/kolibri-cli-macos-$npm_package_version",
+    "pkg:windows": "npm run build && ./node_modules/.bin/pkg build/cjs/index.js -t node14-win-x64 -o ./bin/kolibri-cli-windows-$npm_package_version",
     "postinstall": "patch-package"
   },
   "dependencies": {
