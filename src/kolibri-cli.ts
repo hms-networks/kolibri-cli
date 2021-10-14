@@ -53,11 +53,14 @@ export class KolibriCli extends Program {
         super({ help: true });
 
         this.addKolibriCommands();
-
         // workaround until resolution of: https://github.com/hongaar/bandersnatch/issues/299
         (this as any).on('run', (cmd: string) => {
             if (this.isRepl()) {
-                if (!this.connected && !this.loggedIn && cmd.length !== 0 && !cmd.includes('connect')) {
+                if (cmd.includes('help') || cmd.includes('--version') || cmd.includes('connect')) {
+                    return;
+                }
+
+                if (!this.connected && !this.loggedIn) {
                     console.error('You need to connect and login before executing RPC commands');
                 }
             }
@@ -358,7 +361,6 @@ export class KolibriCli extends Program {
     private async onNotReplConnectAndLogin() {
         if (!this.isRepl() && !this.connected && !this.loggedIn) {
             try {
-                console.log(this.environment.getConnectParams());
                 await this.connect(this.environment.getConnectParams());
                 await this.login(this.environment.getLoginParams());
             }
