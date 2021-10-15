@@ -28,7 +28,7 @@ import { KolibriCli } from './kolibri-cli';
 
 async function main() {
     try {
-        const argv = yargs(hideBin(process.argv)).argv;
+        const argv = await yargs(hideBin(process.argv)).argv;
         let path: string = `${homedir()}/.kolibri-cli/config.env`;
         createDefaultConfigFileIfNotExists(path);
 

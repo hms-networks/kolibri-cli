@@ -53,8 +53,7 @@ export class KolibriCli extends Program {
         super({ help: true });
 
         this.addKolibriCommands();
-        // workaround until resolution of: https://github.com/hongaar/bandersnatch/issues/299
-        (this as any).on('run', (cmd: string) => {
+        this.on('run', (cmd: string | readonly string[]) => {
             if (this.isRepl()) {
                 if (cmd.includes('help') || cmd.includes('--version') || cmd.includes('connect')) {
                     return;
