@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 1.0.3
+
+fix: patch camelcase option handling
+refactor: remove workaround
+deps: update dependencies
+
 ## 1.0.2
 
 fix: fix: --version option output
