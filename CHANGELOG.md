@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.0.4
+
+fix: add missing result return to rpc action
+
 ## 1.0.3
 
 fix: patch camelcase option handling
