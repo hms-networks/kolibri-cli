@@ -480,13 +480,13 @@ export class KolibriCli extends Program {
             return this.nodeModify(args);
         }));
         this.add(new NodeDeleteCommand().action(async (args: any) => {
-            console.info(await this.nodeDelete(args));
+            return this.nodeDelete(args);
         }));
         this.add(new NodeGetPropertiesCommand().action(async (args: any) => {
             return this.nodeGetProperties(args);
         }));
         this.add(new NodeGetHistoryCommand().action(async (args: any) => {
-            await this.nodeGetHistory(args);
+            return this.nodeGetHistory(args);
         }));
         this.add(new NodeDeleteHistoryCommand().action(async (args: any) => {
             return this.nodeDeleteHistory(args);
