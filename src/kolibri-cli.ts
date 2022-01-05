@@ -387,7 +387,6 @@ export class KolibriCli extends Program {
             return this.read(args);
         }));
         this.add(new SubscribeCommand().action(async (args: any) => {
-            console.log(args);
             return this.subscribe(args);
         }));
         this.add(new UnsubscribeCommand().action(async (args: any) => {
