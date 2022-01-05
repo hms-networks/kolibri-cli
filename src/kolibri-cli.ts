@@ -50,7 +50,7 @@ export class KolibriCli extends Program {
     private loggedIn: boolean = false;
 
     constructor(private readonly environment: Environment) {
-        super({ help: true });
+        super({ help: true, parserConfiguration: { 'strip-dashed': true } });
 
         this.addKolibriCommands();
         this.on('run', (cmd: string | readonly string[]) => {
@@ -387,6 +387,7 @@ export class KolibriCli extends Program {
             return this.read(args);
         }));
         this.add(new SubscribeCommand().action(async (args: any) => {
+            console.log(args);
             return this.subscribe(args);
         }));
         this.add(new UnsubscribeCommand().action(async (args: any) => {
