@@ -50,7 +50,7 @@ export class KolibriCli extends Program {
     private loggedIn: boolean = false;
 
     constructor(private readonly environment: Environment) {
-        super({ help: true });
+        super({ help: true, parserConfiguration: { 'strip-dashed': true } });
 
         this.addKolibriCommands();
         this.on('run', (cmd: string | readonly string[]) => {
