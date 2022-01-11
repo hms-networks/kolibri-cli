@@ -28,27 +28,19 @@ import { KolibriCli } from './kolibri-cli';
 
 async function main() {
     try {
-        const argv = await yargs(hideBin(process.argv)).argv;
-        let path: string = `${homedir()}/.kolibri-cli/config.env`;
-        createDefaultConfigFileIfNotExists(path);
+        const defaultConfigFile: string = `${homedir()}/.kolibri-cli/config.env`;
+        createDefaultConfigFileIfNotExists(defaultConfigFile);
 
-        if (argv.config) {
-            path = argv.config as string;
-            removeItemFromArgvIfExists('--config');
+        const configFile = await parseConfigFileArg() ?? defaultConfigFile;
+
+        let environment: Environment;
+        try {
+            environment = loadConfigFile(configFile);
         }
-
-        const environment: Environment = new Environment();
-
-        const replMode: boolean = hideBin(process.argv).length < 1;
-        if (!replMode) {
-            try {
-                environment.loadConfig(path);
-            }
-            catch (e: any) {
-                console.error(`Failed to load config file ${path}`);
-                console.error(String(e.message));
-                return;
-            }
+        catch (e: any) {
+            console.error(`Failed to load config file ${configFile}`);
+            console.error(String(e.message));
+            return;
         }
 
         const cli = new KolibriCli(environment);
@@ -57,6 +49,32 @@ async function main() {
     catch (e: any) {
         console.error('[failed]', String(e.message));
     }
+}
+
+function loadConfigFile(configFile: string) {
+    const environment: Environment = new Environment();
+    const replMode: boolean = hideBin(process.argv).length < 1;
+    if (!replMode) {
+        environment.loadConfig(configFile);
+    }
+    return environment;
+}
+
+async function parseConfigFileArg() {
+    const configFileArg = 'config-file';
+
+    const yargsInstance = yargs(hideBin(process.argv))
+        .parserConfiguration({
+            'camel-case-expansion': false
+        });
+    const argv = await yargsInstance.argv;
+
+    let path;
+    if (argv[configFileArg]) {
+        path = argv[configFileArg] as string;
+        removeItemFromArgvIfExists(`--${configFileArg}`);
+    }
+    return path;
 }
 
 function removeItemFromArgvIfExists(item: string) {

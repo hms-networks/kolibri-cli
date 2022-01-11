@@ -78,11 +78,11 @@ Not supported yet
 
 The scripted mode connects and logs in to the Kolibri Broker automatically before the Kolibri RPC invocation. After the invocation the connection is closed down.
 Therefore to be able to use the scripted mode a config file must be available in the $HOME/.kolibri-cli/ directory. On first startup of the Kolibri CLI this
-directory and a default config file "$HOME/.kolibri-cli/config.env" will be created. Inside this file you need to fill in the specified parameters.
+directory and a default config file $HOME/.kolibri-cli/config.env will be created. Inside this file you need to fill in the specified parameters.
 Alternatively you can also specify your custom config file path with:
 
 ```bash
-./kolibri-cli-linux --config $HOME/my/custom/path/config.env user.browse 
+./kolibri-cli-linux --config-file $HOME/my/custom/path/config.env user.browse 
 ```
 
 If you do not want to store your connection and login information in a file, then you can use ENV vars for this. E.g.
@@ -90,7 +90,7 @@ If you do not want to store your connection and login information in a file, the
 ```bash
 export KOLIBRI_LOGIN_USER=myuser
 export KOLIBRI_LOGIN_PASSWORD=mypassword
-./kolibri-cli-linux --config $HOME/my/custom/path/config.env user.browse 
+./kolibri-cli-linux --config-file $HOME/my/custom/path/config.env user.browse 
 ```
 
 ENV variables have a precedence over the config file.
