@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.0.1
+
+* chore: update deps
+
 ## 2.0.0
 
 * fix: strip dashed alias for camel case options
