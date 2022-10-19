@@ -9,6 +9,9 @@ const EnvironmentMock = Environment as jest.MockedClass<typeof Environment>;
 const KolibriClientMock = KolibriClient as jest.MockedClass<typeof KolibriClient>;
 const KolibriClientFactoryMock = KolibriClientFactory as jest.MockedClass<typeof KolibriClientFactory>;
 
+// Disable KOLIBRI_CLI_FORCE_RAW if it set
+process.env['KOLIBRI_CLI_FORCE_RAW'] = '0';
+
 describe('KolibriCli', () => {
     const env: any = new EnvironmentMock();
     const kolibriClientMock: any = new KolibriClientMock({} as any);
@@ -417,6 +420,18 @@ describe('KolibriCli', () => {
             const result = await cli.permissionUserList({} as any);
             expect(kolibriClientMock.permissionUserList).toHaveBeenCalled();
             expect(result).toEqual(response);
+        });
+    });
+
+    describe('permissionUserList with KOLIBRI_CLI_FORCE_RAW set to 1', () => {
+        it('should be called and return correct value', async () => {
+            process.env['KOLIBRI_CLI_FORCE_RAW'] = '1';
+            const response: any = {};
+            kolibriClientMock.permissionUserList.mockResolvedValue(response);
+            const result = await cli.permissionUserList({} as any);
+            expect(kolibriClientMock.permissionUserList).toHaveBeenCalled();
+            expect(result).toEqual('{}');
+            process.env['KOLIBRI_CLI_FORCE_RAW'] = '0';
         });
     });
 });
