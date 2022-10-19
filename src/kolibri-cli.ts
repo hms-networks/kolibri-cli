@@ -70,8 +70,17 @@ export class KolibriCli extends Program {
         super.runOrRepl()
             .then(async (result: unknown) => {
                 if (result !== undefined) {
-                    let raw = this.environment.getOutputParams()['raw']
-                    console.log(raw ? JSON.stringify(result) : result);
+                    let stdout = result;
+                    if(this.environment.getOutputParams()['raw']) {
+                        try {
+                            stdout = JSON.stringify(result);
+                        }
+                        catch (e) {
+                            // some commands to not return a JSON string
+                            stdout = result;
+                        }
+                    }
+                    console.log(stdout);
                 }
                 if (!this.isRepl()) {
                     await this.client?.disconnect();
