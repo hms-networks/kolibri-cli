@@ -29,6 +29,7 @@ export class Environment {
     private kolibriLoginPassword: string = '';
     private kolibriLoginInterval: number = 60;
     private kolibriLoginTimeout: number = 5;
+    private kolibriForceRawOutput: boolean = false;
 
     public loadConfig(path: string): void {
         const result = dotenv.config({ path: path });
@@ -43,6 +44,9 @@ export class Environment {
         this.kolibriLoginPassword = this.getOrThrow('KOLIBRI_LOGIN_PASSWORD');
         this.kolibriLoginInterval = parseInt(this.getOrThrow('KOLIBRI_LOGIN_INTERVAL'));
         this.kolibriLoginTimeout = parseInt(this.getOrThrow('KOLIBRI_LOGIN_TIMEOUT'));
+        if (process.env['KOLIBRI_CLI_FORCE_RAW'] && process.env['KOLIBRI_CLI_FORCE_RAW'] == 'true') {
+            this.kolibriForceRawOutput = true;
+        }
     }
 
     public getConnectParams(): ClientConfig {
@@ -51,6 +55,10 @@ export class Environment {
 
     public getLoginParams(): LoginParams {
         return { user: this.kolibriLoginUser, password: this.kolibriLoginPassword, interval: this.kolibriLoginInterval, timeout: this.kolibriLoginTimeout };
+    }
+
+    public getOutputParams(): any {
+      return { raw: this.kolibriForceRawOutput }
     }
 
     private getOrThrow(envVar: string): string {

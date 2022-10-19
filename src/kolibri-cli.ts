@@ -70,17 +70,18 @@ export class KolibriCli extends Program {
         super.runOrRepl()
             .then(async (result: unknown) => {
                 if (result !== undefined) {
-                    console.log(result);
+                    let raw = this.environment.getOutputParams()['raw']
+                    console.log(raw ? JSON.stringify(result) : result);
                 }
                 if (!this.isRepl()) {
                     await this.client?.disconnect();
-                    process.exit();
+                    process.exit(0);
                 }
             }).catch(async (e) => {
                 console.error('[failed]', String(e.message));
                 if (!this.isRepl()) {
                     await this.client?.disconnect();
-                    process.exit();
+                    process.exit(1);
                 }
             });
     }
@@ -106,19 +107,10 @@ export class KolibriCli extends Program {
         }
     }
 
-    resultWrapper(result: any) {
-        try {
-          return process.env.KOLIBRI_CLI_FORCE_RAW === '1' ? JSON.stringify(result) : result;
-        }
-        catch(_e){
-          return result;
-        }
-    }
-
     async login(args: LoginParams) {
         const result = await this.client?.login(args);
         this.loggedIn = true;
-        return this.resultWrapper(result);
+        return result;
     }
 
     async write(args: any) {
@@ -135,12 +127,12 @@ export class KolibriCli extends Program {
         }
         delete args.datatype;
 
-        return this.resultWrapper(await this.client?.write({ nodes: [args] }));
+        return this.client?.write({ nodes: [args] });
     }
 
     async read(args: ReadParams) {
         await this.onNotReplConnectAndLogin();
-        return this.resultWrapper(await this.client?.read([args]));
+        return this.client?.read([args]);
     }
 
     async subscribe(args: SubscribeParams) {
@@ -149,7 +141,7 @@ export class KolibriCli extends Program {
             console.info(data);
         });
 
-        return this.resultWrapper(await this.client?.subscribe([args]));
+        return this.client?.subscribe([args]);
     }
 
     async unsubscribe(args: UnsubscribeParams) {
@@ -157,37 +149,37 @@ export class KolibriCli extends Program {
         this.client?.addOnWriteListener(() => {
             // clear listener
         });
-        return this.resultWrapper(await this.client?.unsubscribe([args]));
+        return this.client?.unsubscribe([args]);
     }
 
     async close() {
         await this.onNotReplConnectAndLogin();
-        return this.resultWrapper(await this.client?.close());
+        return this.client?.close();
     }
 
     async userBrowse(args: UserBrowseParams) {
         await this.onNotReplConnectAndLogin();
-        return this.resultWrapper(await this.client?.userBrowse(args));
+        return this.client?.userBrowse(args);
     }
 
     async userCreate(args: UserCreateParams) {
         await this.onNotReplConnectAndLogin();
-        return this.resultWrapper(await this.client?.userCreate(args));
+        return this.client?.userCreate(args);
     }
 
     async userDelete(args: UserDeleteParams) {
         await this.onNotReplConnectAndLogin();
-        return this.resultWrapper(await this.client?.userDelete(args));
+        return this.client?.userDelete(args);
     }
 
     async userModify(args: UserModifyParams) {
         await this.onNotReplConnectAndLogin();
-        return this.resultWrapper(await this.client?.userModify(args));
+        return this.client?.userModify(args);
     }
 
     async userGetProperties(args: UserGetPropertiesParams) {
         await this.onNotReplConnectAndLogin();
-        return this.resultWrapper(await this.client?.userGetProperties(args));
+        return this.client?.userGetProperties(args);
     }
 
     async userSubscribe(args: UserSubscribeParams) {
@@ -195,7 +187,7 @@ export class KolibriCli extends Program {
         this.client?.addOnUserNotifyListener((data: any) => {
             console.log(data);
         });
-        return this.resultWrapper(await this.client?.userSubscribe([args]));
+        return this.client?.userSubscribe([args]);
     }
 
     async userUnsubscribe(args: UserUnsubscribeParams) {
@@ -203,167 +195,167 @@ export class KolibriCli extends Program {
         this.client?.addOnUserNotifyListener(() => {
             // clear listener
         });
-        return this.resultWrapper(await this.client?.userUnsubscribe([args]));
+        return this.client?.userUnsubscribe([args]);
     }
 
     async userGetSessions(args: UserGetSessionsParams) {
         await this.onNotReplConnectAndLogin();
-        return this.resultWrapper(await this.client?.userGetSessions(args));
+        return this.client?.userGetSessions(args);
     }
 
     async userGetHistory(args: UserGetHistoryParams) {
         await this.onNotReplConnectAndLogin();
-        return this.resultWrapper(await this.client?.userGetHistory(args));
+        return this.client?.userGetHistory(args);
     }
 
     async userGroupBrowse(args: UserGroupBrowseParams) {
         await this.onNotReplConnectAndLogin();
-        return this.resultWrapper(await this.client?.userGroupBrowse(args));
+        return this.client?.userGroupBrowse(args);
     }
 
     async userGroupCreate(args: UserGroupCreateParams) {
         await this.onNotReplConnectAndLogin();
-        return this.resultWrapper(await this.client?.userGroupCreate(args));
+        return this.client?.userGroupCreate(args);
     }
 
     async userGroupModify(args: UserGroupModifyParams) {
         await this.onNotReplConnectAndLogin();
-        return this.resultWrapper(await this.client?.userGroupModify(args));
+        return this.client?.userGroupModify(args);
     }
 
     async userGroupDelete(args: UserGroupDeleteParams) {
         await this.onNotReplConnectAndLogin();
-        return this.resultWrapper(await this.client?.userGroupDelete(args));
+        return this.client?.userGroupDelete(args);
     }
 
     async userGroupGetProperties(args: UserGroupGetPropertiesParams) {
         await this.onNotReplConnectAndLogin();
-        return this.resultWrapper(await this.client?.userGroupGetProperties(args));
+        return this.client?.userGroupGetProperties(args);
     }
 
     async userGroupAddMember(args: UserGroupAddMemberParams) {
         await this.onNotReplConnectAndLogin();
-        return this.resultWrapper(await this.client?.userGroupAddMember(args));
+        return this.client?.userGroupAddMember(args);
     }
 
     async userGroupRemoveMember(args: UserGroupRemoveMemberParams) {
         await this.onNotReplConnectAndLogin();
-        return this.resultWrapper(await this.client?.userGroupRemoveMember(args));
+        return this.client?.userGroupRemoveMember(args);
     }
 
     async userGroupListMembers(args: UserGroupListMembersParams) {
         await this.onNotReplConnectAndLogin();
-        return this.resultWrapper(await this.client?.userGroupListMembers(args));
+        return this.client?.userGroupListMembers(args);
     }
 
     async userGroupIsMember(args: UserGroupIsMemberParams) {
         await this.onNotReplConnectAndLogin();
-        return this.resultWrapper(await this.client?.userGroupIsMember(args));
+        return this.client?.userGroupIsMember(args);
     }
 
     async projectBrowse(args: ProjectBrowseParams) {
         await this.onNotReplConnectAndLogin();
-        return this.resultWrapper(await this.client?.projectBrowse(args));
+        return this.client?.projectBrowse(args);
     }
 
     async projectCreate(args: ProjectCreateParams) {
         await this.onNotReplConnectAndLogin();
-        return this.resultWrapper(await this.client?.projectCreate(args));
+        return this.client?.projectCreate(args);
     }
 
     async projectModify(args: ProjectModifyParams) {
         await this.onNotReplConnectAndLogin();
-        return this.resultWrapper(await this.client?.projectModify(args));
+        return this.client?.projectModify(args);
     }
 
     async projectDelete(args: ProjectDeleteParams) {
         await this.onNotReplConnectAndLogin();
-        return this.resultWrapper(await this.client?.projectDelete(args));
+        return this.client?.projectDelete(args);
     }
 
     async projectGetProperties(args: ProjectGetPropertiesParams) {
         await this.onNotReplConnectAndLogin();
-        return this.resultWrapper(await this.client?.projectGetProperties(args));
+        return this.client?.projectGetProperties(args);
     }
 
     async projectGetStatistics(args: ProjectGetStatisticsParams) {
         await this.onNotReplConnectAndLogin();
-        return this.resultWrapper(await this.client?.projectGetStatistics(args));
+        return this.client?.projectGetStatistics(args);
     }
 
     async projectGetLiveUsage(args: ProjectGetLiveUsageParams) {
         await this.onNotReplConnectAndLogin();
-        return this.resultWrapper(await this.client?.projectGetLiveUsage(args));
+        return this.client?.projectGetLiveUsage(args);
     }
 
     async projectGetHistoryUsage(args: ProjectGetHistoryUsageParams) {
         await this.onNotReplConnectAndLogin();
-        return this.resultWrapper(await this.client?.projectGetHistoryUsage(args));
+        return this.client?.projectGetHistoryUsage(args);
     }
 
     async nodeBrowse(args: NodeBrowseParams) {
         await this.onNotReplConnectAndLogin();
-        return this.resultWrapper(await this.client?.nodeBrowse(args));
+        return this.client?.nodeBrowse(args);
     }
 
     async nodeCreate(args: NodeCreateParams) {
         await this.onNotReplConnectAndLogin();
-        return this.resultWrapper(await this.client?.nodeCreate(args));
+        return this.client?.nodeCreate(args);
     }
 
     async nodeModify(args: NodeModifyParams) {
         await this.onNotReplConnectAndLogin();
-        return this.resultWrapper(await this.client?.nodeModify(args));
+        return this.client?.nodeModify(args);
     }
 
     async nodeDelete(args: NodeDeleteParams) {
         await this.onNotReplConnectAndLogin();
-        return this.resultWrapper(await this.client?.nodeDelete(args));
+        return this.client?.nodeDelete(args);
     }
 
     async nodeGetProperties(args: NodeGetPropertiesParams) {
         await this.onNotReplConnectAndLogin();
-        return this.resultWrapper(await this.client?.nodeGetProperties(args));
+        return this.client?.nodeGetProperties(args);
     }
 
     async nodeGetHistory(args: NodeGetHistoryParams) {
         await this.onNotReplConnectAndLogin();
-        return this.resultWrapper(await this.client?.nodeGetHistory(args));
+        return this.client?.nodeGetHistory(args);
     }
 
     async nodeDeleteHistory(args: NodeDeleteHistoryParams) {
         await this.onNotReplConnectAndLogin();
-        return this.resultWrapper(await this.client?.nodeDeleteHistory(args));
+        return this.client?.nodeDeleteHistory(args);
     }
 
     async permissionNodeSet(args: PermissionNodeSetParams) {
         await this.onNotReplConnectAndLogin();
-        return this.resultWrapper(await this.client?.permissionNodeSet(args));
+        return this.client?.permissionNodeSet(args);
     }
 
     async permissionNodeList(args: PermissionNodeListParams) {
         await this.onNotReplConnectAndLogin();
-        return this.resultWrapper(await this.client?.permissionNodeList(args));
+        return this.client?.permissionNodeList(args);
     }
 
     async permissionRpcAdd(args: PermissionRpcAddParams) {
         await this.onNotReplConnectAndLogin();
-        return this.resultWrapper(await this.client?.permissionRpcAdd(args));
+        return this.client?.permissionRpcAdd(args);
     }
 
     async permissionRpcRemove(args: PermissionRpcRemoveParams) {
         await this.onNotReplConnectAndLogin();
-        return this.resultWrapper(await this.client?.permissionRpcRemove(args));
+        return this.client?.permissionRpcRemove(args);
     }
 
     async permissionRpcList(args: PermissionRpcListParams) {
         await this.onNotReplConnectAndLogin();
-        return this.resultWrapper(await this.client?.permissionRpcList(args));
+        return this.client?.permissionRpcList(args);
     }
 
     async permissionUserList(args: PermissionUserListParams) {
         await this.onNotReplConnectAndLogin();
-        return this.resultWrapper(await this.client?.permissionUserList(args));
+        return this.client?.permissionUserList(args);
     }
 
     private async onNotReplConnectAndLogin() {
