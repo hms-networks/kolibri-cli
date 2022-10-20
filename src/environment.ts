@@ -29,7 +29,16 @@ export class Environment {
     private kolibriLoginPassword: string = '';
     private kolibriLoginInterval: number = 60;
     private kolibriLoginTimeout: number = 5;
-    private kolibriForceRawOutput: boolean = false;
+
+    private _kolibriCliForceRawOutput: boolean = false;
+
+    /**
+     * Initializes environment with optional config applied for scripted and repl modes.
+     * Overrides config from the ENV.
+     */
+    public constructor() {
+        this._kolibriCliForceRawOutput = this.parseBoolean(this.getOrDefault('KOLIBRI_CLI_FORCE_RAW_OUTPUT', 'false'));
+    }
 
     public loadConfig(path: string): void {
         const result = dotenv.config({ path: path });
@@ -44,9 +53,6 @@ export class Environment {
         this.kolibriLoginPassword = this.getOrThrow('KOLIBRI_LOGIN_PASSWORD');
         this.kolibriLoginInterval = parseInt(this.getOrThrow('KOLIBRI_LOGIN_INTERVAL'));
         this.kolibriLoginTimeout = parseInt(this.getOrThrow('KOLIBRI_LOGIN_TIMEOUT'));
-        if (process.env['KOLIBRI_CLI_FORCE_RAW'] && process.env['KOLIBRI_CLI_FORCE_RAW'] == 'true') {
-            this.kolibriForceRawOutput = true;
-        }
     }
 
     public getConnectParams(): ClientConfig {
@@ -57,8 +63,17 @@ export class Environment {
         return { user: this.kolibriLoginUser, password: this.kolibriLoginPassword, interval: this.kolibriLoginInterval, timeout: this.kolibriLoginTimeout };
     }
 
-    public getOutputParams(): any {
-      return { raw: this.kolibriForceRawOutput }
+    public get kolibriCliForceRawOutput(): boolean {
+        return this._kolibriCliForceRawOutput;
+    }
+
+    private getOrDefault(envVar: string, defaultVar: string) {
+        if (process.env[envVar]) {
+            return process.env[envVar]!;
+        }
+        else {
+            return defaultVar;
+        }
     }
 
     private getOrThrow(envVar: string): string {
@@ -68,5 +83,9 @@ export class Environment {
         else {
             throw new Error(`Missing Environment Variable: ${envVar}`);
         }
+    }
+
+    private parseBoolean(value: string): boolean {
+        return (value === 'true');
     }
 }
