@@ -30,6 +30,16 @@ export class Environment {
     private kolibriLoginInterval: number = 60;
     private kolibriLoginTimeout: number = 5;
 
+    private _kolibriCliForceRawOutput: boolean = false;
+
+    /**
+     * Initializes environment with optional config applied for scripted and repl modes.
+     * Overrides config from the ENV.
+     */
+    public constructor() {
+        this._kolibriCliForceRawOutput = this.parseBoolean(this.getOrDefault('KOLIBRI_CLI_FORCE_RAW_OUTPUT', 'false'));
+    }
+
     public loadConfig(path: string): void {
         const result = dotenv.config({ path: path });
         if (result.error) {
@@ -53,6 +63,19 @@ export class Environment {
         return { user: this.kolibriLoginUser, password: this.kolibriLoginPassword, interval: this.kolibriLoginInterval, timeout: this.kolibriLoginTimeout };
     }
 
+    public get kolibriCliForceRawOutput(): boolean {
+        return this._kolibriCliForceRawOutput;
+    }
+
+    private getOrDefault(envVar: string, defaultVar: string) {
+        if (process.env[envVar]) {
+            return process.env[envVar]!;
+        }
+        else {
+            return defaultVar;
+        }
+    }
+
     private getOrThrow(envVar: string): string {
         if (process.env[envVar]) {
             return process.env[envVar]!;
@@ -60,5 +83,9 @@ export class Environment {
         else {
             throw new Error(`Missing Environment Variable: ${envVar}`);
         }
+    }
+
+    private parseBoolean(value: string): boolean {
+        return (value === 'true');
     }
 }

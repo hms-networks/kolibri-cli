@@ -93,6 +93,7 @@ function createDefaultConfigFileIfNotExists(path: string) {
         }
 
         const fileContent = [
+            'KOLIBRI_CLI_FORCE_RAW_OUTPUT=false',
             'KOLIBRI_CONNECT_HOST=http://localhost:8080',
             'KOLIBRI_CONNECT_PROJECT=management',
             'KOLIBRI_CONNECT_HOST_PATH=/',

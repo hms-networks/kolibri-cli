@@ -38,7 +38,7 @@ Starting the Kolibri CLI in just one command.
 Inside the REPL Interface type help to see all available commands.
 
 ```bash
-> help 
+> help
 You need to connect and login before executing RPC commands
 kolibri-cli-linux <command>
 
@@ -54,7 +54,7 @@ Commands:
 Each command has its own detailed help command
 
 ```bash
-> login help 
+> login help
 You need to connect and login before executing RPC commands
 kolibri-cli-linux login
 
@@ -82,7 +82,7 @@ directory and a default config file $HOME/.kolibri-cli/config.env will be create
 Alternatively you can also specify your custom config file path with:
 
 ```bash
-./kolibri-cli-linux --config-file $HOME/my/custom/path/config.env user.browse 
+./kolibri-cli-linux --config-file $HOME/my/custom/path/config.env user.browse
 ```
 
 If you do not want to store your connection and login information in a file, then you can use ENV vars for this. E.g.
@@ -90,7 +90,12 @@ If you do not want to store your connection and login information in a file, the
 ```bash
 export KOLIBRI_LOGIN_USER=myuser
 export KOLIBRI_LOGIN_PASSWORD=mypassword
-./kolibri-cli-linux --config-file $HOME/my/custom/path/config.env user.browse 
+./kolibri-cli-linux --config-file $HOME/my/custom/path/config.env user.browse
 ```
 
 ENV variables have a precedence over the config file.
+
+## Output format environment switches
+
+**KOLIBRI_CLI_FORCE_RAW=true**: can be used to output results always as string, the default is to pretty-print JSON objects.
+**NO_COLOR** or **FORCE_COLOR=0**: can be used to turn off color in the output.

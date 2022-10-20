@@ -70,17 +70,27 @@ export class KolibriCli extends Program {
         super.runOrRepl()
             .then(async (result: unknown) => {
                 if (result !== undefined) {
-                    console.log(result);
+                    let stdout = result;
+                    if (this.environment.kolibriCliForceRawOutput) {
+                        try {
+                            stdout = JSON.stringify(result);
+                        }
+                        catch (e) {
+                            // some commands to not return a JSON string
+                            stdout = result;
+                        }
+                    }
+                    console.log(stdout);
                 }
                 if (!this.isRepl()) {
                     await this.client?.disconnect();
-                    process.exit();
+                    process.exit(0);
                 }
             }).catch(async (e) => {
                 console.error('[failed]', String(e.message));
                 if (!this.isRepl()) {
                     await this.client?.disconnect();
-                    process.exit();
+                    process.exit(1);
                 }
             });
     }
