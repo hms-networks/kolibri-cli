@@ -71,7 +71,7 @@ export class KolibriCli extends Program {
             .then(async (result: unknown) => {
                 if (result !== undefined) {
                     let stdout = result;
-                    if(this.environment.getOutputParams()['raw']) {
+                    if (this.environment.kolibriCliForceRawOutput) {
                         try {
                             stdout = JSON.stringify(result);
                         }
