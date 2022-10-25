@@ -103,8 +103,7 @@ function createDefaultConfigFileIfNotExists(path: string) {
             'KOLIBRI_LOGIN_TIMEOUT=10',
             'KOLIBRI_LOGIN_CLIENT=kolibri-cli',
             'KOLIBRI_LOGIN_PENDING_TRANSACTIONS=false',
-            'KOLIBRI_LOGIN_SESSION_EXPIRE=0',
-            'KOLIBRI_LOGIN_RPC_SERVER=false'
+            'KOLIBRI_LOGIN_SESSION_EXPIRE=0'
         ];
 
         const newLine = '\r\n';

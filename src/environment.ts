@@ -33,7 +33,6 @@ export class Environment {
     private kolibriLoginClient?: string = 'kolibri-cli';
     private kolibriLoginPendingTransactions?: boolean = false;
     private kolibriLoginSessionExpire?: number = 0;
-    private kolibriLoginRpcServer?: boolean = false;
 
     private _kolibriCliForceRawOutput: boolean = false;
 
@@ -64,7 +63,6 @@ export class Environment {
         this.kolibriLoginClient = this.getOrDefault('KOLIBRI_LOGIN_CLIENT', 'kolibri-cli');
         this.kolibriLoginPendingTransactions = this.parseBoolean(this.getOrDefault('KOLIBRI_LOGIN_PENDING_TRANSACTIONS', 'false'));
         this.kolibriLoginSessionExpire = parseInt(this.getOrDefault('KOLIBRI_LOGIN_SESSION_EXPIRE', '0'));
-        this.kolibriLoginRpcServer = this.parseBoolean(this.getOrDefault('KOLIBRI_LOGIN_RPC_SERVER', 'false'));
     }
 
     public getConnectParams(): ClientConfig {
@@ -79,8 +77,7 @@ export class Environment {
             timeout: this.kolibriLoginTimeout,
             client: this.kolibriLoginClient,
             pendingTransactions: this.kolibriLoginPendingTransactions,
-            sessionExpire: this.kolibriLoginSessionExpire,
-            rpcServer: this.kolibriLoginRpcServer
+            sessionExpire: this.kolibriLoginSessionExpire
         };
     }
 

@@ -27,6 +27,5 @@ export class LoginCommand extends Command {
         this.option('client', { description: 'Client', optional: true, type: 'string', default: 'kolibri-cli' });
         this.option('pendingTransactions', { description: 'Pending Transactions', optional: true, type: 'boolean', default: false });
         this.option('sessionExpire', { description: 'Session Expire', optional: true, type: 'number', default: 0 });
-        this.option('rpcServer', { description: 'Rpc Server', optional: true, type: 'boolean', default: false });
     }
 }
