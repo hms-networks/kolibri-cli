@@ -1,6 +1,6 @@
 {
   "name": "@hms-networks/kolibri-cli",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "The CLI interface for the Kolibri Broker",
   "author": "HMS Industrial Networks AB",
   "homepage": "https://www.hms-networks.com",

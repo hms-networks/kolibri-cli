@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 2.1.0
+
+* feat: Added switch that enables raw JSON output
+* fix: add missing login options
+* chore: update deps
+
 ## 2.0.1
 
 * chore: update deps
