@@ -97,5 +97,5 @@ ENV variables have a precedence over the config file.
 
 ## Output format environment switches
 
-**KOLIBRI_CLI_FORCE_RAW_OUTPUT=true**: can be used to output results always as string, the default is to pretty-print JSON objects.
-**NO_COLOR** or **FORCE_COLOR=0**: can be used to turn off color in the output.
+- KOLIBRI_CLI_FORCE_RAW_OUTPUT=true: can be used to output results always as string, the default is to pretty-print JSON objects.
+- NO_COLOR or FORCE_COLOR=0: can be used to turn off color in the output.
