@@ -20,9 +20,12 @@ import { Command } from 'bandersnatch';
 export class LoginCommand extends Command {
     constructor() {
         super('login', { description: 'Login to the Kolibri Broker' });
-        this.option('user', { description: 'Username', optional: true, type: 'string' });
-        this.option('password', { description: 'Password', optional: true, type: 'string' });
-        this.option('interval', { description: 'Interval', type: 'number', default: 60 });
-        this.option('timeout', { description: 'Timeout', type: 'number', default: 5 });
+        this.option('user', { description: 'Username', type: 'string' });
+        this.option('password', { description: 'Password', type: 'string' });
+        this.option('interval', { description: 'Interval', optional: true, type: 'number', default: 60 });
+        this.option('timeout', { description: 'Timeout', optional: true, type: 'number', default: 5 });
+        this.option('client', { description: 'Client', optional: true, type: 'string', default: 'kolibri-cli' });
+        this.option('pendingTransactions', { description: 'Pending Transactions', optional: true, type: 'boolean', default: false });
+        this.option('sessionExpire', { description: 'Session Expire', optional: true, type: 'number', default: 0 });
     }
 }

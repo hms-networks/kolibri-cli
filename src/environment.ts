@@ -30,6 +30,10 @@ export class Environment {
     private kolibriLoginInterval: number = 60;
     private kolibriLoginTimeout: number = 5;
 
+    private kolibriLoginClient?: string = 'kolibri-cli';
+    private kolibriLoginPendingTransactions?: boolean = false;
+    private kolibriLoginSessionExpire?: number = 0;
+
     private _kolibriCliForceRawOutput: boolean = false;
 
     /**
@@ -46,6 +50,7 @@ export class Environment {
             throw result.error;
         }
 
+        // Required
         this.kolibriConnectHost = this.getOrThrow('KOLIBRI_CONNECT_HOST');
         this.kolibriConnectProject = this.getOrThrow('KOLIBRI_CONNECT_PROJECT');
         this.kolibriConnectHostPath = this.getOrThrow('KOLIBRI_CONNECT_HOST_PATH');
@@ -53,6 +58,11 @@ export class Environment {
         this.kolibriLoginPassword = this.getOrThrow('KOLIBRI_LOGIN_PASSWORD');
         this.kolibriLoginInterval = parseInt(this.getOrThrow('KOLIBRI_LOGIN_INTERVAL'));
         this.kolibriLoginTimeout = parseInt(this.getOrThrow('KOLIBRI_LOGIN_TIMEOUT'));
+
+        // Optional
+        this.kolibriLoginClient = this.getOrDefault('KOLIBRI_LOGIN_CLIENT', 'kolibri-cli');
+        this.kolibriLoginPendingTransactions = this.parseBoolean(this.getOrDefault('KOLIBRI_LOGIN_PENDING_TRANSACTIONS', 'false'));
+        this.kolibriLoginSessionExpire = parseInt(this.getOrDefault('KOLIBRI_LOGIN_SESSION_EXPIRE', '0'));
     }
 
     public getConnectParams(): ClientConfig {
@@ -60,7 +70,15 @@ export class Environment {
     }
 
     public getLoginParams(): LoginParams {
-        return { user: this.kolibriLoginUser, password: this.kolibriLoginPassword, interval: this.kolibriLoginInterval, timeout: this.kolibriLoginTimeout };
+        return {
+            user: this.kolibriLoginUser,
+            password: this.kolibriLoginPassword,
+            interval: this.kolibriLoginInterval,
+            timeout: this.kolibriLoginTimeout,
+            client: this.kolibriLoginClient,
+            pendingTransactions: this.kolibriLoginPendingTransactions,
+            sessionExpire: this.kolibriLoginSessionExpire
+        };
     }
 
     public get kolibriCliForceRawOutput(): boolean {
